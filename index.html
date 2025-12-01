@@ -1,9 +1,40 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Test Page</title>
-  </head>
-  <body>
-    <h1>Halo beb, sudah masuk!</h1>
-  </body>
+<head>
+  <title>AI Story Generator</title>
+</head>
+<body style="font-family: Arial; padding: 20px;">
+  <h2>AI Story Generator</h2>
+
+  <label>Judul</label><br>
+  <input id="title" style="width:100%"><br><br>
+
+  <label>Genre</label><br>
+  <input id="genre" style="width:100%"><br><br>
+
+  <label>Premis</label><br>
+  <textarea id="premise" style="width:100%; height: 80px;"></textarea><br><br>
+
+  <label>Tone / Emosi</label><br>
+  <input id="tone" style="width:100%"><br><br>
+
+  <button onclick="generate()">Generate Prompt</button>
+
+  <h3>Hasil:</h3>
+  <pre id="output" style="white-space: pre-wrap;"></pre>
+
+<script>
+function generate() {
+  const t = title.value;
+  const g = genre.value;
+  const p = premise.value;
+  const o = tone.value;
+  
+  fetch(`/api/generate?title=${encodeURIComponent(t)}&genre=${encodeURIComponent(g)}&premise=${encodeURIComponent(p)}&tone=${encodeURIComponent(o)}`)
+    .then(res => res.json())
+    .then(data => output.textContent = data.prompt);
+}
+</script>
+
+</body>
 </html>
