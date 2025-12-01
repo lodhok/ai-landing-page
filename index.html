@@ -78,6 +78,50 @@ function generateJSON() {
 </script>
 </body>
 </html>
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Generator JSON Multi-Asset</h1>
+    <p>Masukkan detail, lalu sistem akan membuat JSON siap pakai.</p>
+  </header>
+
+  <div class="container">
+    <h2>Input Data</h2>
+    <label>Masukkan teks asset / prompt:</label>
+    <textarea id="inputText"></textarea>
+    <a class="btn" href="#" onclick="generateJSON()">Generate JSON</a>
+
+    <h2>Hasil JSON</h2>
+    <textarea id="outputText"></textarea>
+  </div>
+
+<script>
+function generateJSON() {
+  const text = document.getElementById('inputText').value.trim();
+  const jsonTemplate = {
+    "version": "1.0",
+    "assets": [
+      {
+        "type": "text",
+        "content": text
+      }
+    ]
+  };
+
+  document.getElementById('outputText').value = JSON.stringify(jsonTemplate, null, 2);
+}
+</script>
+</body>
+</html>
 </script>
 
 </body>
