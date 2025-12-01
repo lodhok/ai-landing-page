@@ -68,21 +68,25 @@
     <h2>Input Data</h2>
 
     <label>Judul Project:</label>
-    <input id="projectTitle" type="text" style="width:100%;padding:1rem;border-radius:8px;border:1px solid #ccc;margin-top:0.5rem" placeholder="Contoh: Film Pendek Cinematic" />
+    <input id="projectTitle" type="text" placeholder="Contoh: Film Cinematic" />
 
     <label style="margin-top:1rem;display:block">Prompt Utama:</label>
-    <textarea id="mainPrompt" placeholder="Masukkan prompt utama..."></textarea>
+    <textarea id="mainPrompt"></textarea>
 
     <label style="margin-top:1rem;display:block">Aset (format: type: isi):</label>
-    <textarea id="inputText" placeholder="image: gunung senja
-audio: musik tenang
-text: narasi pembuka"></textarea>
+    <textarea id="inputText"></textarea>
+
+    <label style="margin-top:1rem;display:block">Genre:</label>
+    <input id="genreInput" type="text" placeholder="Contoh: Horror, Cinematic, Drama" />
+
+    <label style="margin-top:1rem;display:block">Tone:</label>
+    <input id="toneInput" type="text" placeholder="Contoh: Dark, Emotional, Epic" />
 
     <label style="margin-top:1rem;display:block">Jumlah Scene (opsional):</label>
-    <input id="sceneCount" type="number" min="1" style="width:100%;padding:1rem;border-radius:8px;border:1px solid #ccc;margin-top:0.5rem" placeholder="Contoh: 6" />
+    <input id="sceneCount" type="number" min="1" placeholder="Contoh: 6" />
 
-    <a class="btn" href="#" onclick="generateJSON()">Generate JSON</a>
-    <a class="btn btn-green" href="#" onclick="copyOutput()">Copy JSON</a()" style="background:#059669">Copy JSON</a>
+    <button class="btn" type="button" onclick="generateJSON()">Generate JSON</button>
+    <button class="btn btn-green" type="button" onclick="copyOutput()">Copy JSON</button>
 
     <h2>Hasil JSON</h2>
     <textarea id="outputText"></textarea>
@@ -90,12 +94,13 @@ text: narasi pembuka"></textarea>
 
 <script>
 function generateJSON() {
-  const title = document.getElementById('projectTitle').value.trim();
-  const mainPrompt = document.getElementById('mainPrompt').value.trim();
-  const raw = document.getElementById('inputText').value.trim().split(/
-+/);
-  const sceneCount = parseInt(document.getElementById('sceneCount').value.trim());
+  const title = document.getElementById('projectTitle')?.value.trim() || '';
+  const mainPrompt = document.getElementById('mainPrompt')?.value.trim() || '';
+  const rawText = document.getElementById('inputText')?.value.trim() || '';
+  const sceneCount = parseInt(document.getElementById('sceneCount')?.value.trim()) || 0;
 
+  const raw = rawText.split(/
++/);
   const assets = [];
 
   raw.forEach(line => {
@@ -109,22 +114,22 @@ function generateJSON() {
     }
   });
 
-  const fullJSON = {
-    version: "2.0",
+  const jsonOutput = {
+    version: '2.0',
     title: title,
     prompt: mainPrompt,
+    genre: document.getElementById('genreInput').value.trim(),
+    tone: document.getElementById('toneInput').value.trim(),
     scenes: sceneCount > 0 ? sceneCount : undefined,
     assets: assets
   };
 
-  document.getElementById('outputText').value = JSON.stringify(fullJSON, null, 2);
+  document.getElementById('outputText').value = JSON.stringify(jsonOutput, null, 2);
 }
 
 function copyOutput() {
   const text = document.getElementById('outputText').value;
-  navigator.clipboard.writeText(text).then(() => {
-    alert('JSON berhasil dicopy!');
-  });
+  navigator.clipboard.writeText(text).then(() => alert('JSON berhasil dicopy!'));
 }
 </script>
 </body>
